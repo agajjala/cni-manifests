@@ -1,18 +1,40 @@
-region: us-west-2
+region: us-east-2
 env_name: dev
 deployment_id: shuai2
 tags:
-  region: us-west-2
+  region: us-east-2
   env_name: dev
   deployment_id: shuai2
-lambda_layer_s3_key: zip/cni_common_v269.zip
-lambda_function_s3_key: zip/api_v4.zip
+private_connect_role_name: dev-us-east-2-shuai2-private-connect
+lambda_layer_s3_key: zip/cni_common_v226-10.zip
+lambda_function_s3_key: zip/api_v6.zip
 lambda_memory_size: 2048
 inbound_service_name: shuai2-cni-inbound
 outbound_service_name: shuai2-cni-outbound
+inbound_data_plane_node_group_desired_size: 1
+inbound_data_plane_node_group_max_size: 1
+inbound_data_plane_node_group_min_size: 1
+outbound_data_plane_node_group_desired_size: 1
+outbound_data_plane_node_group_max_size: 1
+outbound_data_plane_node_group_min_size: 1
+inbound_vpc_cidr: 10.0.0.0/22
+outbound_vpc_cidr: 10.0.4.0/22
+inbound_data_plane_node_group_instance_types:
+  - t2.micro
+outbound_data_plane_node_group_instance_types:
+  - t2.micro
+metrics_exporter:
+  image: 985884022631.dkr.ecr.us-east-2.amazonaws.com/cni-metrics-exporter
+  version: '10'
 monitoring:
-  image: 985884022631.dkr.ecr.us-west-2.amazonaws.com/cni-monitoring
-  version: '4'
+  image: 985884022631.dkr.ecr.us-east-2.amazonaws.com/cni-monitoring
+  version: '10'
+dataplane_inbound:
+  image: 985884022631.dkr.ecr.us-east-2.amazonaws.com/cni-nginx-proxy-inbound
+  version: '10'
+dataplane_outbound:
+  image: 985884022631.dkr.ecr.us-east-2.amazonaws.com/cni-nginx-proxy-outbound
+  version: '10'
 sitebridge_config:
   bgp_asn: 64902
   control_plane_ips:
@@ -77,6 +99,6 @@ api_access_whitelist:
 enable_sitebridge: false
 enable_transit_gateway: false
 outbound_vpcs_config:
-  vpc_cidrs:
-    - 10.20.12.0/22
+  1:
+    vpc_cidr: 10.0.4.0/22
 
