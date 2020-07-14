@@ -1,11 +1,11 @@
-region: us-west-2
+region: us-east-2
 env_name: dev
 deployment_id: kev-test
 tags:
-  region: us-west-2
+  region: us-east-2
   env_name: dev
   deployment_id: kev-test
-private_connect_role_name: dev-us-west-2-kev-test-private-connect
+private_connect_role_name: dev-us-east-2-kev-test-private-connect
 api_authorization: CUSTOM
 api_authorizer_gdot_url: https://login.stmpa.stm.salesforce.com/services/c2c/api/v1/validateJwt
 api_authorizer_c2c_key_secret_name: C2C-EC-Keys-Dev
@@ -45,36 +45,39 @@ api_access_whitelist:
   - 204.14.236.219/32
   - 204.14.236.218/32
   - 204.14.236.212/32
-lambda_layer_s3_key: zip/cni_common_v277.zip
-lambda_function_s3_key: zip/api_v4.zip
+lambda_layer_s3_key: zip/cni_common_v226-10.zip
+lambda_function_s3_key: zip/api_v6.zip
 lambda_memory_size: 2048
 inbound_vpc_cidr: 10.0.0.0/22
 inbound_data_plane_node_group_instance_types:
-  - m5.4xlarge
-inbound_data_plane_node_group_max_size: 6
+  - t2.micro
 outbound_vpc_cidr: 10.0.4.0/22
 outbound_data_plane_node_group_instance_types:
-  - m5.4xlarge
-outbound_data_plane_node_group_max_size: 6
+  - t2.micro
+inbound_data_plane_node_group_desired_size: 1
+inbound_data_plane_node_group_max_size: 1
+inbound_data_plane_node_group_min_size: 1
+outbound_data_plane_node_group_desired_size: 1
+outbound_data_plane_node_group_max_size: 1
+outbound_data_plane_node_group_min_size: 1
 metrics_exporter:
-  image: 325178561262.dkr.ecr.us-west-2.amazonaws.com/cni-metrics-exporter
+  image: 325178561262.dkr.ecr.us-east-2.amazonaws.com/cni-metrics-exporter
   version: '279'
 monitoring:
-  image: 985884022631.dkr.ecr.us-west-2.amazonaws.com/cni-monitoring
+  image: 985884022631.dkr.ecr.us-east-2.amazonaws.com/cni-monitoring
   version: '279'
 dataplane_inbound:
-  image: 985884022631.dkr.ecr.us-west-2.amazonaws.com/cni-nginx-proxy-inbound
+  image: 985884022631.dkr.ecr.us-east-2.amazonaws.com/cni-nginx-proxy-inbound
   version: '20'
 dataplane_outbound:
-  image: 985884022631.dkr.ecr.us-west-2.amazonaws.com/cni-nginx-proxy-outbound
+  image: 985884022631.dkr.ecr.us-east-2.amazonaws.com/cni-nginx-proxy-outbound
   version: '20'
 enable_sitebridge: false
 enable_transit_gateway: false
-vpc_suffix: 1
 inbound_service_name: kev-test-cni-inbound
 outbound_service_name: kev-test-cni-outbound
 write_local_pem_files: false
 outbound_vpcs_config:
   1:
-    vpc_cidrs: 10.0.4.0/22
-git_branch: outbound_scale_control_plane
+    vpc_cidr: 10.0.4.0/22
+
